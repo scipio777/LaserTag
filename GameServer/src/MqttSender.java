@@ -4,7 +4,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class MqttComm {
+public class MqttSender {
 
 	private String topic = "GameCom";
 	private int qos = 2;
@@ -16,7 +16,7 @@ public class MqttComm {
 	MqttConnectOptions connOpts = new MqttConnectOptions();
 	MqttClient client = new MqttClient(broker, clientId, persistence);
 
-	public MqttComm() throws MqttException {
+	public MqttSender() throws MqttException {
 
 	}
 
