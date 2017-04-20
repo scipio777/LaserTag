@@ -1,42 +1,62 @@
 import java.util.Scanner;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import java.util.ArrayList;
 
 public class GameServerApp {
 
 	public static void main(String[] args) throws MqttException {
 
-		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 
-		// Instatiates a MQTT communication object for sending messages.
-		MqttSender sender = new MqttSender();
+		// Instantiates a MQTT communication object for sending messages.
+		MqttPublisher publisher = new MqttPublisher();
 
-		// Instatiates a MQTT communication object for receiving messages.
-		// MqttListener listner = new MqttListener();
+		// Instantiates a MQTT communication object for receiving messages.
+		MqttSubscriber subscriber = new MqttSubscriber();
 
+		// Instantiates an Engine object to control the flow of the application.
+		Engine engine = new Engine();
+
+		// Instantiates a Free-For-All object that manages the gameplay.
+		Free4All f4A = new Free4All();
+		
+		//Instantiates a player object to represent players in the game.
+		Player player = new Player(null, null, null);
+		
+		//Beginning of application
+		
 		while (true) {
 
-			// Requests a communication option from user.
-			System.out.println("Select communication option:\n[1] Send Message [2] Receive Message");
-			int communicationType = scan.nextInt();
+			// Clears all entries from the messsageArray and the player array.
+			engine.arrayReset(subscriber, player);
 
-			// Skip the newLine
-			scan.nextLine();
+			/* Notifies all players that the game is ready to add new players.
+			 * All clients must subscribe to the topic "InterComm" by default.
+			 * The topic "InterComm" broadcasts across all clients.
+			 */
+			publisher.publishes("InterComm", "Game ready.  Please join.");
 
-			if (communicationType == 1) {
-				// Sends a message via the MQTT protocol
-				System.out.print("Please enter message: ");
-				String message = scan.nextLine();
-				sender.send(message);
-			}
-			// if (communicationType == 2) {
-			// Listens for a message via the MQTT protocol
-			// listener.listens();
-			// }
+			// Begins the player sign-up process
+			engine.signUp(subscriber, publisher, player, scan);
 			
-			//Pushed to github4
-
+			// Subscribes to each player's topic
+			engine.subscribePlayers(subscriber, player);
+			
+			// Sets the frequency for each player
+			//engine.setFrequency();
+			
+			// Clears all messages from the messsageArray.
+			engine.arrayReset(subscriber);
+			
+			// Begins the game.
+			f4A.startGame();
+			
+			//Unsubscribes all players.
+			//engine.unsubscribePlayers();
+			
+			//Display stats
+			//engine.stats();
+			
 		}
-
 	}
 }
