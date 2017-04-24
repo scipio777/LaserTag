@@ -23,12 +23,15 @@ public class GameServerApp {
 		//Instantiates a player object to represent players in the game.
 		Player player = new Player(null, null, null);
 		
+		//Array of player objects and its methods and variables	
+		ArrayList<Player> playerArray = new ArrayList<Player>();
+				
 		//Beginning of application
 		
 		while (true) {
 
 			// Clears all entries from the messsageArray and the player array.
-			engine.arrayReset(subscriber, player);
+			engine.arrayReset(subscriber, playerArray);
 
 			/* Notifies all players that the game is ready to add new players.
 			 * All clients must subscribe to the topic "InterComm" by default.
@@ -37,10 +40,10 @@ public class GameServerApp {
 			publisher.publishes("InterComm", "Game ready.  Please join.");
 
 			// Begins the player sign-up process
-			engine.signUp(subscriber, publisher, player, scan);
+			engine.signUp(subscriber, publisher, playerArray, scan);
 			
 			// Subscribes to each player's topic
-			engine.subscribePlayers(subscriber, player);
+			//engine.subscribePlayers(subscriber, playerArray);
 			
 			// Sets the frequency for each player
 			//engine.setFrequency();

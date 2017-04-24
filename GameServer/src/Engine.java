@@ -1,11 +1,12 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Engine {
 
-	public void arrayReset(MqttSubscriber subscriber, Player player) {
+	public void arrayReset(MqttSubscriber subscriber, ArrayList<Player> playerArray) {
 		subscriber.messageArray.clear();
-		player.playerArray.clear();
+		playerArray.clear();
 	}
 
 	public void arrayReset(MqttSubscriber subscriber) {
@@ -19,7 +20,7 @@ public class Engine {
 	 * player array
 	 */
 
-	public void signUp(MqttSubscriber subscriber, MqttPublisher publisher, Player player, Scanner scan) {
+	public void signUp(MqttSubscriber subscriber, MqttPublisher publisher, ArrayList<Player> playerArray, Scanner scan) {
 
 		System.out.println("Waiting for players to sign-in...");
 
@@ -73,8 +74,8 @@ public class Engine {
 
 				boolean duplicate = false;
 
-				for (int i = 0; i < player.playerArray.size(); i++) {
-					if (clientID.contentEquals(player.playerArray.get(i).getClientID())) {
+				for (int i = 0; i < playerArray.size(); i++) {
+					if (clientID.contentEquals(playerArray.get(i).getClientID())) {
 						duplicate = true;
 					}
 				}
@@ -83,17 +84,17 @@ public class Engine {
 
 					// Creates a new player and adds them to the player array
 					// list.
-					player.playerArray.add(new Player(clientID, topic, name));
+					playerArray.add(new Player(clientID, topic, name));
 
 					// Notifies the player that they have been added.
 					publisher.publishes(topic, "You have been added to the game.");
 
 					System.out.println("These player(s) are signed-in:  ");
 
-					for (int i = 0; i < player.playerArray.size(); i++) {
+					for (int i = 0; i < playerArray.size(); i++) {
 
 						System.out.println(
-								player.playerArray.get(i).getName() + "   " + player.playerArray.get(i).getClientID());
+								playerArray.get(i).getName() + "   " + playerArray.get(i).getClientID());
 					}
 
 					System.out.println("Would you like to add another player? [0] Yes or [1] No");
@@ -106,10 +107,10 @@ public class Engine {
 		}
 	}
 
-	public void subscribePlayers(MqttSubscriber subscriber, Player player) {
+	public void subscribePlayers(MqttSubscriber subscriber, ArrayList<Player> playerArray) {
 		
-		for (int i = 0; i < player.playerArray.size(); i++) {
-			subscriber.subscribes(player.playerArray.get(i).getTopic());
+		for (int i = 0; i < playerArray.size(); i++) {
+			subscriber.subscribes(playerArray.get(i).getTopic());
 		}
 		System.out.println("All players have been subscribed.");
 	}
