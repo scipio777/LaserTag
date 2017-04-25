@@ -8,6 +8,7 @@ public class Free4All {
 		//accept messages
 		
 		//Use the same setup as the signUp method.
+		
 		//Depending on the case. Do something
 		
 		//Basic message premise.  "I got hit by this frequency."

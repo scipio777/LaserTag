@@ -4,9 +4,9 @@ public class Player {
 	private String clientID = "";
 	private String topic = "";
 	private String name = "";
+	private String frequency = "";
 	//private int health;
 	//private int lives;
-	
 	
 
 	public Player(String clientID, String topic, String name) {
@@ -26,4 +26,8 @@ public class Player {
 	public String getTopic(){
 		return topic;
 	}
+		 
+	public void setFrequency(int frequency){
+		this.frequency = Integer.toString(frequency);
+	}	
 }

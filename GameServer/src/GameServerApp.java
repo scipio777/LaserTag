@@ -42,11 +42,8 @@ public class GameServerApp {
 			// Begins the player sign-up process
 			engine.signUp(subscriber, publisher, playerArray, scan);
 			
-			// Subscribes to each player's topic
-			//engine.subscribePlayers(subscriber, playerArray);
-			
 			// Sets the frequency for each player
-			//engine.setFrequency();
+			  engine.setFrequency(playerArray);
 			
 			// Clears all messages from the messsageArray.
 			engine.arrayReset(subscriber);

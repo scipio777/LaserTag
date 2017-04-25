@@ -20,15 +20,14 @@ public class Engine {
 	 * player array
 	 */
 
-	public void signUp(MqttSubscriber subscriber, MqttPublisher publisher, ArrayList<Player> playerArray, Scanner scan) {
-
-		System.out.println("Waiting for players to sign-in...");
+	public void signUp(MqttSubscriber subscriber, MqttPublisher publisher, ArrayList<Player> playerArray,
+			Scanner scan) {
 
 		int sentinel = 0;
-
+		
 		while (sentinel == 0) {
 
-			subscriber.subscribes("InterComm");
+			subscriber.subscribes("InterComm/#");
 
 			if (subscriber.messageArray.size() > 0) {
 
@@ -38,35 +37,28 @@ public class Engine {
 				 */
 
 				String message = subscriber.messageArray.get(0).getMessage();
+				String topic = subscriber.messageArray.get(0).getTopic();
 
-				// Removes the message from first entry in the messageList
-				// array.
+				
+				// Removes the message from 1st entry in the messageList array.
 				subscriber.messageArray.remove(0);
 
 				/*
-				 * Parses the clientID, topic and name from the message. The
-				 * parsed elements will be placed in the parsedMessage String
-				 * array. The parsedMessage[0] will contain the clientID,
-				 * parsedMessage[1] will contain the topic, parsedMessage[2]
-				 * will contain the name
+				 * Parses the clientID from the topic. The parsedMessage[1] contains the ClientID (MAC address)
 				 */
 
-				String parsedMessage[] = message.split("~");
+				String parsedMessage[] = topic.split("/");
 
 				// Checks if the correct number of elements are present in the
 				// message.
 
-				int numOfParsedElementsExpected = 3;
+				int numOfParsedElementsExpected = 2;
 				boolean hasCorrectNumberOfElements = false;
 
 				String clientID = "";
-				String topic = "";
-				String name = "";
 
 				if ((parsedMessage.length) == numOfParsedElementsExpected) {
-					clientID = parsedMessage[0];
-					topic = "InterComm/" + parsedMessage[1];
-					name = parsedMessage[2];
+					clientID = parsedMessage[1];
 					hasCorrectNumberOfElements = true;
 				}
 
@@ -84,7 +76,7 @@ public class Engine {
 
 					// Creates a new player and adds them to the player array
 					// list.
-					playerArray.add(new Player(clientID, topic, name));
+					playerArray.add(new Player(clientID, topic, message));
 
 					// Notifies the player that they have been added.
 					publisher.publishes(topic, "You have been added to the game.");
@@ -93,25 +85,29 @@ public class Engine {
 
 					for (int i = 0; i < playerArray.size(); i++) {
 
-						System.out.println(
-								playerArray.get(i).getName() + "   " + playerArray.get(i).getClientID());
+						System.out.println(playerArray.get(i).getName() + "  ~  " + playerArray.get(i).getTopic());
 					}
 
 					System.out.println("Would you like to add another player? [0] Yes or [1] No");
 					sentinel = scan.nextInt();
-					if (sentinel == 0) {
-						System.out.println("Waiting for players to sign-in...");
-					}
 				}
 			}
 		}
 	}
 
 	public void subscribePlayers(MqttSubscriber subscriber, ArrayList<Player> playerArray) {
-		
+
 		for (int i = 0; i < playerArray.size(); i++) {
 			subscriber.subscribes(playerArray.get(i).getTopic());
 		}
 		System.out.println("All players have been subscribed.");
+	}
+
+	public void setFrequency(ArrayList<Player> playerArray) {
+
+		for (int i = 0; i < playerArray.size(); i++) {
+			playerArray.get(i).setFrequency(i);
+		}
+		System.out.println("All frequencies are set.");
 	}
 }
