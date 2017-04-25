@@ -6,7 +6,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttPublisher {
 
-	private int qos = 0;
+	private int qos = 1;
 	private String broker = "tcp://192.168.1.149:1883";
 	private String clientId = "GameServer2";
 	
