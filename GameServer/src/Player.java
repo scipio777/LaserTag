@@ -1,14 +1,13 @@
-
 public class Player {
 
 	private String clientID = "";
 	private String topic = "";
 	private String name = "";
-	private String frequency = "";
-	//private int health;
-	//private int lives;
+	private String freqKey = "";
+	private int killScore = 0;
+	private int death = 0;
 	
-
+	
 	public Player(String clientID, String topic, String name) {
 		this.clientID = clientID;
 		this.topic = topic;
@@ -25,9 +24,25 @@ public class Player {
 	
 	public String getTopic(){
 		return topic;
+	}		 
+	
+	public void increaseDeath(){
+		this.death = death+=death;
 	}
-		 
-	public void setFrequency(int frequency){
-		this.frequency = Integer.toString(frequency);
+	
+	public int getKillScore(){
+		return killScore;
+	}
+	
+	public void increaseKill(){
+		this.killScore = killScore+1;
+	}
+	
+	public String getFreqKey(){
+		return freqKey;
+	}	
+	
+	public void setFreqKey(String freq){
+		this.freqKey = freq;
 	}	
 }

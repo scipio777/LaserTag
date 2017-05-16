@@ -7,8 +7,8 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class MqttPublisher {
 
 	private int qos = 1;
-	private String broker = "tcp://192.168.1.149:1883";
-	private String clientId = "GameServer2";
+	private String broker = "tcp://192.168.1.102:1883";
+	private String clientId = "GameServer3";
 	
 	MemoryPersistence publisherPersistence = new MemoryPersistence();
 	MqttConnectOptions connOpts = new MqttConnectOptions();
@@ -38,7 +38,6 @@ public class MqttPublisher {
 			System.out.println("cause " + me.getCause());
 			System.out.println("excep " + me);
 			me.printStackTrace();
-
 		}
 	}
 }

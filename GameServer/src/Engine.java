@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,11 +22,18 @@ public class Engine {
 	public void signUp(MqttSubscriber subscriber, MqttPublisher publisher, ArrayList<Player> playerArray,
 			Scanner scan) {
 
+		System.out.println("Sign-up process has started.  \nRequesting players to register...");
+		
 		int sentinel = 0;
+		boolean isNotSubscribed = true;
 		
 		while (sentinel == 0) {
-
-			subscriber.subscribes("InterComm/#");
+			
+			if (isNotSubscribed){
+				isNotSubscribed = false;
+			}
+			
+			subscriber.subscribes("interComm/#");
 
 			if (subscriber.messageArray.size() > 0) {
 
@@ -106,7 +112,7 @@ public class Engine {
 	public void setFrequency(ArrayList<Player> playerArray) {
 
 		for (int i = 0; i < playerArray.size(); i++) {
-			playerArray.get(i).setFrequency(i);
+			playerArray.get(i).setFreqKey("shooter_" + i);
 		}
 		System.out.println("All frequencies are set.");
 	}

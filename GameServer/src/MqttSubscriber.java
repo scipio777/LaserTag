@@ -13,8 +13,8 @@ public class MqttSubscriber implements MqttCallback {
 	ArrayList<Message> messageArray = new ArrayList<Message>();
 	
 	/** The broker url. */
-	private static final String brokerUrl = "tcp://192.168.1.149:1883";
-	private static final String clientId = "GameServer";
+	private static final String brokerUrl = "tcp://192.168.1.102:1883";
+	private static final String clientId = "GameServer4";
 
 	
 	/**
@@ -75,13 +75,10 @@ public class MqttSubscriber implements MqttCallback {
 	 * org.eclipse.paho.client.mqttv3.MqttCallback#messageArrived(java.lang.
 	 * String, org.eclipse.paho.client.mqttv3.MqttMessage)
 	 */
-	public void messageArrived(String topic, final MqttMessage mqttMessage) throws Exception {
+	public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
 
-		//System.out.println("");
-		//System.out.println("");
-		//System.out.println("Mqtt topic : " + topic);
-		//System.out.println("Mqtt msg : " + mqttMessage.toString());
-       
-		messageArray.add(new Message(topic, mqttMessage.toString()));
+        messageArray.add(new Message(topic, mqttMessage.toString()));
+		//System.out.println("Message added to messageArray.");
+    
 	}
 }

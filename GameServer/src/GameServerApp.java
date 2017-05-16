@@ -1,4 +1,4 @@
-  import java.util.Scanner;
+ import java.util.Scanner;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import java.util.ArrayList;
 
@@ -30,14 +30,13 @@ public class GameServerApp {
 		
 		while (true) {
 
-			// Clears all entries from the messsageArray and the player array.
-			engine.arrayReset(subscriber, playerArray);
-
+			//Create a game type selector method here.
+			
 			/* Notifies all players that the game is ready to add new players.
-			 * All clients must subscribe to the topic "InterComm" by default.
-			 * The topic "InterComm" broadcasts across all clients.
+			 * All clients must subscribe to the topic "interComm" by default.
+			 * The topic "interComm" broadcasts across all clients.
 			 */
-			publisher.publishes("InterComm", "Game ready.  Please join.");
+			publisher.publishes("interComm/", "Game Server ready.  Please join.");
 
 			// Begins the player sign-up process
 			engine.signUp(subscriber, publisher, playerArray, scan);
@@ -49,13 +48,11 @@ public class GameServerApp {
 			engine.arrayReset(subscriber);
 			
 			// Begins the game.
-			f4A.startGame();
+			f4A.runGame(subscriber, publisher, playerArray, player, scan);
 			
-			//Unsubscribes all players.
-			//engine.unsubscribePlayers();
-			
+		
 			//Display stats
-			//engine.stats();
+		    //engine.stats();
 			
 		}
 	}
